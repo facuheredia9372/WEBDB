@@ -18,6 +18,7 @@ import mensajesRoutes from './routes/mensajes.js';
 import perfilRoutes from './routes/perfil.js';
 import gestionRoutes from './routes/gestion.js';
 
+console.log('Variables de entorno:', Object.keys(process.env).filter((k) => /JWT|DATABASE|DB_/.test(k)));
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -51,7 +52,7 @@ app.get('/test-db', async (req, res) => {
 
 // Rutas públicas
 app.get('/api/health', (req, res) => {
-    res.json({ ok: true });
+    res.json({ ok: true, jwt: Boolean(process.env.JWT_SECRET) });
 });
 
 app.use('/api/auth', authRoutes);
