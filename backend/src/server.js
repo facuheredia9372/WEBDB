@@ -6,6 +6,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 
 import { requireAuth, requireLider } from './middleware/auth.js';
+import { query } from './db.js'; // Importación correcta de la base de datos
 
 import authRoutes from './routes/auth.js';
 import panelRoutes from './routes/panel.js';
@@ -32,6 +33,20 @@ app.use(express.json());
 app.use('/uploads', express.static(
     path.join(__dirname, '..', 'uploads')
 ));
+
+// Ruta de prueba para verificar la conexión a Render
+app.get('/test-db', async (req, res) => {
+    try {
+        const resultado = await query('SELECT NOW()');
+        res.json({
+            mensaje: '¡Conexión exitosa con Render!',
+            fechaServidorBD: resultado.rows[0].now
+        });
+    } catch (error) {
+        console.error('Error al conectar con la base de datos:', error);
+        res.status(500).json({ error: 'Fallo la conexión con la base de datos', detalle: error.message });
+    }
+});
 
 // Rutas públicas
 app.get('/api/health', (req, res) => {
