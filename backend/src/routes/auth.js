@@ -13,6 +13,14 @@ const limiter = rateLimit({
   message: { error: 'Demasiados intentos, probá de nuevo en unos minutos' },
 });
 
+const tablas = await query(`
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'public'
+`);
+
+console.log(tablas.rows);
+
 const normalizar = (texto = '') =>
   texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
 
