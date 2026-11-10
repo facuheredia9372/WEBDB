@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://webdb-wxbp.onrender.com/api';
 const API_ORIGIN = new URL(API_URL).origin;
 
 const LANG = { actual: localStorage.getItem('ep_lang') || 'es' };
