@@ -554,6 +554,7 @@ class App {
         const r = await this.api.get('/auth/me');
         const extra = await this.api.get('/perfil').catch(() => ({}));
         this.user = { ...tokenData(this.api.token), ...(r.usuario ?? r), ...extra };
+        this.user.rol_app ??= this.user.rol;
         if (!this.lider && await this.probarLider()) this.user.rol_app = 'lider';
       } catch { return; }
     }

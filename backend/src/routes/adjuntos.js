@@ -23,7 +23,7 @@ const upload = multer({
 
 const router = express.Router({ mergeParams: true });
 const handler = fn => (req, res, next) => fn(req, res, next).catch(next);
-const esLider = req => req.user.rol_app === 'lider';
+const esLider = req => (req.user.rol_app ?? req.user.rol) === 'lider';
 const COLUMNAS = "id_adjunto, id_usuario, nombre_original, fecha, '/uploads/' || archivo AS url";
 
 router.use(handler(async (req, res, next) => {

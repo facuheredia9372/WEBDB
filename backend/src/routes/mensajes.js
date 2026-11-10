@@ -7,7 +7,7 @@ const handler = fn => (req, res, next) => fn(req, res, next).catch(next);
 router.use(handler(async (req, res, next) => {
   const { rows } = await query('SELECT 1 FROM proyectos WHERE id_proyecto = $1', [req.params.id]);
   if (!rows.length) return res.status(404).json({ error: 'Proyecto no encontrado' });
-  if (req.user.rol_app !== 'lider') {
+  if ((req.user.rol_app ?? req.user.rol) !== 'lider') {
     const equipo = await query(
       'SELECT 1 FROM trabaja_en WHERE id_proyecto = $1 AND id_empleado = $2',
       [req.params.id, req.user.id_empleado]);
